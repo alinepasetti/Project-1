@@ -17,14 +17,14 @@ class Player {
   runLogic(key) {
     switch (key) {
       case 'up':
-        if (this.positionY > 0) {
+        if (this.positionY > this.game.startPath) {
           console.log('up');
           this.positionY -= this.speed;
           console.log(this.positionY);
         }
         break;
       case 'down':
-        if (this.positionY + this.height < this.game.context.canvas.height) {
+        if (this.positionY + this.height < this.game.endPath) {
           console.log('down');
           this.positionY += this.speed;
         }

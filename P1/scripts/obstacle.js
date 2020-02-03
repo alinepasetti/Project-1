@@ -16,7 +16,8 @@ class Obstacle {
     context.restore();
   }
   setRandom() {
-    this.positionY = Math.random() * this.game.context.canvas.width - this.height;
+    this.positionY =
+      this.game.startPath + Math.random() * (this.game.endPath - this.game.startPath - this.height);
   }
   runLogic() {
     this.positionX -= this.speed;

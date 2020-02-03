@@ -9,6 +9,8 @@ class Game {
     this.controls = new Controls(this);
     this.controls.setBindingKeys();
 
+    this.startPath = 330;
+    this.endPath = 615;
     this.speed = 1500;
     this.timer = 0;
 
