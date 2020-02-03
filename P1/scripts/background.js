@@ -5,8 +5,7 @@ class Background {
     this.game = game;
     this.speed = 5;
     this.image = new Image();
-    this.image.src =
-      'https://orig15.deviantart.net/8bed/f/2015/058/a/8/smb1_background_by_steamerthesteamtrain-d8jq7ea.png';
+    this.image.src = '../images/background.png';
   }
   runLogic() {
     // if (x < -1 * game.context.canvas.width) {

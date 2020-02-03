@@ -9,6 +9,9 @@ class Game {
     this.controls = new Controls(this);
     this.controls.setBindingKeys();
 
+    this.speed = 1500;
+    this.timer = 0;
+
     this.paint();
     // this.gameLoop();
   }
@@ -24,21 +27,6 @@ class Game {
   runLogic() {
     this.player.runLogic();
     this.background.runLogic();
-
-    for (let i = 0; i < this.obstacle.length; i++) {
-      this.obstacle[i].runLogic(this);
-      if (this.obstacle[i].positionX === 580) {
-        this.obstacle.push(new Obstacle(this));
-        // this.obstacle[i].paint();
-      }
-      console.log(this.obstacle);
-    }
-    // for (let o of this.obstacle) {
-    //   console.log('he');
-    //   o.positionX -= o.speed;
-    //     o.paint();
-    //   }
-    // }
   }
 
   clearRect() {
@@ -49,16 +37,27 @@ class Game {
     this.clearRect();
     this.background.paint(this);
     this.player.paint(this);
-    this.obstacle[0].paint(this);
+    for (let obstacle of this.obstacle) {
+      obstacle.paint(this);
+    }
   }
+
   start() {
     this.loop();
   }
 
-  loop() {
-    window.requestAnimationFrame(() => {
-      this.loop();
+  loop(timestamp) {
+    window.requestAnimationFrame(timestamp => {
+      this.loop(timestamp);
     });
+    for (let i = 0; i < this.obstacle.length; i++) {
+      this.obstacle[i].runLogic(this);
+    }
+    console.log(timestamp);
+    if (this.timer < timestamp - this.speed) {
+      this.timer = timestamp;
+      this.obstacle.push(new Obstacle(this));
+    }
     this.runLogic();
     this.paint();
   }
