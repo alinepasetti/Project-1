@@ -5,7 +5,8 @@ class Obstacle {
     this.width = 50;
     this.positionX = this.game.context.canvas.width; //this.game.context.canvas.width - this.width;
     this.positionY = 0;
-    this.speed = 3;
+    this.speed = 1;
+    this.status = 1;
     this.setRandom();
   }
   paint() {

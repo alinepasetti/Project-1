@@ -4,8 +4,9 @@ class Game {
     this.context = this.$canvas.getContext('2d');
 
     this.background = new Background(this);
+    this.scoreBoard = new Scoreboard(this);
     this.player = new Player(this);
-    this.obstacle = [new Obstacle(this)];
+    this.obstacle = [];
     this.controls = new Controls(this);
     this.controls.setBindingKeys();
 
@@ -13,8 +14,11 @@ class Game {
     this.endPath = 615;
     this.speed = 1500;
     this.timer = 0;
+    this.score = 5;
+    this.isRunning = true;
 
     this.paint();
+
     // this.gameLoop();
   }
 
@@ -27,8 +31,12 @@ class Game {
     }
   }
   runLogic() {
+    this.checkCollision();
     this.player.runLogic();
     this.background.runLogic();
+    if (this.score === 0) {
+      this.isRunning = false;
+    }
   }
 
   clearRect() {
@@ -38,29 +46,63 @@ class Game {
   paint() {
     this.clearRect();
     this.background.paint(this);
+    this.scoreBoard.paint();
     this.player.paint(this);
     for (let obstacle of this.obstacle) {
-      obstacle.paint(this);
+      if (obstacle.status === 1) {
+        obstacle.paint(this);
+      }
     }
+  }
+  stop() {
+    this.reset();
   }
 
   start() {
+    this.reset();
     this.loop();
   }
 
+  reset() {
+    this.isRunning = true;
+    this.player = new Player(this);
+  }
+  
+  togglePause() {
+    this.isRunning = !this.isRunning;
+  }
+  checkCollision() {
+    const player = this.player;
+    for (let obstacle of this.obstacle) {
+      if (typeof obstacle.positionX == 'number') {
+        if (
+          player.positionX + player.width > obstacle.positionX &&
+          player.positionX < obstacle.positionX + obstacle.width &&
+          player.positionY + player.height > obstacle.positionY &&
+          player.positionY < obstacle.positionY + obstacle.height
+        ) {
+          obstacle.status = 0;
+          obstacle.positionY = 0;
+          this.score -= 1;
+        }
+      }
+    }
+  }
+
   loop(timestamp) {
-    window.requestAnimationFrame(timestamp => {
-      this.loop(timestamp);
-    });
+    this.runLogic();
+    this.paint();
     for (let i = 0; i < this.obstacle.length; i++) {
       this.obstacle[i].runLogic(this);
     }
-    console.log(timestamp);
     if (this.timer < timestamp - this.speed) {
       this.timer = timestamp;
       this.obstacle.push(new Obstacle(this));
     }
-    this.runLogic();
-    this.paint();
+    if (this.isRunning === true) {
+      window.requestAnimationFrame(timestamp => {
+        this.loop(timestamp);
+      });
+    }
   }
 }

@@ -3,7 +3,7 @@ let x = 0;
 class Background {
   constructor(game) {
     this.game = game;
-    this.speed = 3;
+    this.speed = 1;
     this.image = new Image();
     this.image.src = '../images/background.png';
   }
