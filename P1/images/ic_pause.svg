@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="14px" viewBox="0 0 12 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>ic_pause</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M6,19 L10,19 L10,5 L6,5 L6,19 L6,19 Z M14,5 L14,19 L18,19 L18,5 L14,5 L14,5 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="50" height="50"></rect>
+    </defs>
+    <g id="🔘-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Material_icons_library" transform="translate(-342.000000, -1732.000000)">
+            <g id="ic_pause" transform="translate(336.000000, 1727.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Mask"></g>
+                <g id="Colors/Black" mask="url(#mask-2)">
+                    <g transform="translate(-13.000000, -13.000000)">
+                        <mask id="mask-4" fill="white">
+                            <use xlink:href="#path-3"></use>
+                        </mask>
+                        <use id="Black" stroke="none" fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

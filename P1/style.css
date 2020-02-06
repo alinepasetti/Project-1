@@ -3,29 +3,63 @@
 body {
   background-color: black;
   font-family: 'Sigmar One', cursive;
-  color: white;
+  color: #156377;
   text-align: center;
 }
 
 #game-panel {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
   padding: 50px 0;
 }
 
-aside {
+aside div {
+  font-size: 20px;
   display: flex;
-  background-color: grey;
-  padding: 0 50px;
-  height: 700px;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  cursor: pointer;
+  border: 1px solid #156377;
+  border-radius: 5px;
+  padding: 10px 13px;
 }
 
-button {
-  background-color: blanchedalmond;
-  width: 220px;
+aside div:hover {
+  background-color: #156377;
+  color: #b9dcdd;
+}
+
+aside {
+  display: flex;
+  background-color: #b9dcdd;
+  padding: 25px 25px;
   height: 50px;
-  font-size: 24px;
+  width: 850px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  background-color: #156377;
+  color: white;
+  padding: 15px 13px;
+  border-radius: 5px;
+}
+
+aside > img {
+  width: 50px;
+}
+span {
+  padding-left: 10px;
+}
+
+#btn-start img {
+  color: bisque;
+}
+
+#btn-stop img {
+  color: red;
 }

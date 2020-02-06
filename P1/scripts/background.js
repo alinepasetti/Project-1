@@ -3,14 +3,11 @@ let x = 0;
 class Background {
   constructor(game) {
     this.game = game;
-    this.speed = 1;
+    this.speed = game.gameSpeed;
     this.image = new Image();
     this.image.src = '../images/background.png';
   }
   runLogic() {
-    // if (x < -1 * game.context.canvas.width) {
-    //   x = 0;
-    // }
     x -= this.speed;
     if (this.image.width) {
       x = x % this.image.width;

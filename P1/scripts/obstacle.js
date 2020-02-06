@@ -5,16 +5,15 @@ class Obstacle {
     this.width = 50;
     this.positionX = this.game.context.canvas.width; //this.game.context.canvas.width - this.width;
     this.positionY = 0;
-    this.speed = 1;
+    this.image = new Image();
+    this.image.src = '../images/cucumber.svg';
+    this.speed = game.gameSpeed;
     this.status = 1;
     this.setRandom();
   }
   paint() {
     const context = this.game.context;
-    context.save();
-    context.fillStyle = 'red';
-    context.fillRect(this.positionX, this.positionY, this.width, this.height);
-    context.restore();
+    context.drawImage(this.image, this.positionX, this.positionY, this.width, this.height);
   }
   setRandom() {
     this.positionY =
