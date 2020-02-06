@@ -41,7 +41,7 @@ class Game {
   }
 
   startScreen() {
-    // this.music.play();
+    this.music.play();
     let startImg = new Image();
     startImg.src = '../images/Entry_of_game_instruc.png';
     this.context.drawImage(startImg, 0, 0, 900, 700, 0, 0, 900, 700);
