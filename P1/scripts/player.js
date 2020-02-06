@@ -25,6 +25,10 @@ class Player {
       [853, 161]
     ];
     this.spritePosition = 0;
+
+    //sound
+    this.scream = new Audio('../audio/cat-screaming.mp3');
+    // this.purr = ;
   }
   // paint(game) {
   //   const context = this.game.context;

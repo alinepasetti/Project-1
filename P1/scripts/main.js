@@ -6,7 +6,7 @@ document.getElementById('btn-stop').disabled = true;
 
 window.addEventListener('load', () => {
   game.startScreen();
-
+  
   document.querySelector('#btn-start').addEventListener('click', () => {
     game.start();
   });
@@ -22,7 +22,6 @@ window.addEventListener('load', () => {
   //   }
   // });
 });
-console.dir(document.getElementById('btn-start'));
 
 document.getElementById('btn-reset').addEventListener('click', () => {
   game.reset();

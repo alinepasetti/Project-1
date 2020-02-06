@@ -19,9 +19,13 @@ class Obstacle2 {
     this.timer = 0;
     this.spritePosition = 0;
 
-    this.speed = 2 * game.gameSpeed;
+    this.speed = 2 * this.game.gameSpeed;
     this.status = 1;
     this.setRandom();
+
+    //audio
+    this.audio = new Audio('../audio/bike-bell.mp3');
+    this.audio.play();
   }
 
   update(timestamp) {
@@ -67,6 +71,7 @@ class Obstacle2 {
       this.game.startPath + Math.random() * (this.game.endPath - this.game.startPath - this.height);
   }
   runLogic() {
+    this.speed = this.game.gameSpeed * 2;
     this.positionX -= this.speed;
   }
 }
