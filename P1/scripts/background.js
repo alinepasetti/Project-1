@@ -9,7 +9,6 @@ class Background {
   }
   runLogic() {
     this.speed = this.game.gameSpeed;
-    console.log('this is the background speed', this.speed);
     x -= this.speed;
     if (this.image.width) {
       x = x % this.image.width;

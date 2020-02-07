@@ -1,20 +1,21 @@
+const imageBike = new Image();
+imageBike.src = '../images/bike_sprite.png';
+
 class Obstacle2 {
   constructor(game) {
     this.game = game;
     this.height = 112;
     this.width = 122.5;
-    this.positionX = this.game.context.canvas.width; //this.game.context.canvas.width - this.width;
-    this.positionY = 0;
+    this.positionX = 900; //this.game.context.canvas.width - this.width;
+    this.positionY;
 
-    this.image = new Image();
-    this.image.src = '../images/bike_sprite.png';
     this.spritePositions = [
       [0, 0],
       [122.5, 0]
     ];
 
-    this.frameWidth = this.image.width / 2;
-    this.frameHeight = this.image.height;
+    this.frameWidth = imageBike.width / 2;
+    this.frameHeight = imageBike.height;
     this.animSpeed = 280;
     this.timer = 0;
     this.spritePosition = 0;
@@ -22,17 +23,13 @@ class Obstacle2 {
     this.speed = 2 * this.game.gameSpeed;
     this.status = 1;
     this.setRandom();
-
-    //audio
-    this.audio = new Audio('../audio/bike-bell.mp3');
-    this.audio.play();
   }
 
   update(timestamp) {
     if (this.timer < timestamp - this.animSpeed) {
       this.timer = timestamp;
       this.game.context.drawImage(
-        this.image,
+        imageBike,
         this.spritePositions[this.spritePosition][0],
         this.spritePositions[this.spritePosition][1],
         this.frameWidth,
@@ -49,7 +46,7 @@ class Obstacle2 {
       }
     } else {
       this.game.context.drawImage(
-        this.image,
+        imageBike,
         this.spritePositions[this.spritePosition][0],
         this.spritePositions[this.spritePosition][1],
         this.frameWidth,
@@ -62,16 +59,17 @@ class Obstacle2 {
     }
   }
 
-  paint() {
-    const context = this.game.context;
-    context.drawImage(this.image, this.positionX, this.positionY, 150, 50);
-  }
+  // paint() {
+  //   const context = this.game.context;
+  //   context.drawImage(this.image, this.positionX, this.positionY, 150, 50);
+  // }
   setRandom() {
     this.positionY =
       this.game.startPath + Math.random() * (this.game.endPath - this.game.startPath - this.height);
+    console.log(this.positionY);
   }
   runLogic() {
-    this.speed = this.game.gameSpeed * 2;
+    // this.speed = this.game.gameSpeed * 2;
     this.positionX -= this.speed;
   }
 }

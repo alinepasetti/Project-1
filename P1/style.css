@@ -15,7 +15,7 @@ body {
   padding: 50px 0;
 }
 
-aside div {
+.btn {
   font-size: 20px;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@ aside div {
   padding: 10px 13px;
 }
 
-aside div:hover {
+.btn:hover {
   background-color: #156377;
   color: #b9dcdd;
 }
@@ -41,19 +41,27 @@ aside {
   align-items: center;
 }
 
-h1 {
+#score {
   margin: 0;
+  width: 80px;
   background-color: #156377;
   color: white;
-  padding: 15px 13px;
+  padding: 18px 10px;
   border-radius: 5px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#score img {
+  width: 25px;
+}
+
+span {
+  font-size: 20px;
 }
 
 aside > img {
   width: 50px;
-}
-span {
-  padding-left: 10px;
 }
 
 #btn-start img {

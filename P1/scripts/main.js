@@ -1,12 +1,9 @@
 const $canvas = document.querySelector('canvas');
 const game = new Game($canvas);
 
-document.getElementById('btn-reset').disabled = true;
-document.getElementById('btn-stop').disabled = true;
-
 window.addEventListener('load', () => {
   game.startScreen();
-  
+
   document.querySelector('#btn-start').addEventListener('click', () => {
     game.start();
   });
@@ -30,5 +27,3 @@ document.getElementById('btn-reset').addEventListener('click', () => {
 document.getElementById('btn-stop').addEventListener('click', () => {
   game.togglePause();
 });
-
-game.player.update();
