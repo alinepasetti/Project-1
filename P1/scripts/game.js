@@ -37,7 +37,7 @@ class Game {
     this.changeSpeed = 15000;
 
     // score and running
-    this.score = 1;
+    this.score = 7;
     this.isRunning = false;
 
     //when Game is created / init
