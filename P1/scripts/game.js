@@ -8,8 +8,13 @@ class Game {
     this.$canvas = $canvas;
     this.context = this.$canvas.getContext('2d');
     this.gameSpeed = 2;
+    //game end
+    this.gameEnd = 60000;
+    this.timer4 = 0;
 
-    // game over
+    // game screens
+    this.gameEndImg = new Image();
+    this.gameEndImg.src = '../images/endGameBG.png';
     this.startImg = new Image();
     this.startImg.src = '../images/Entry_of_game_instruc.png';
     this.gameOverImage = new Image();
@@ -83,7 +88,14 @@ class Game {
       this.player.speed += 1;
       // this.speed -= 300;
     }
-
+    if (this.timer4 < timestamp - this.gameEnd) {
+      console.log('10 secs');
+      this.isRunning = false;
+      music.pause();
+      this.gameOverSnd.play();
+      this.scoreBoard.paint();
+      this.context.drawImage(this.gameEndImg, 0, 0, 900, 700);
+    }
     if (this.score === 0) {
       this.lose();
     }
