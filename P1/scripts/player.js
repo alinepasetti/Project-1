@@ -1,5 +1,5 @@
 const sheet = new Image();
-sheet.src = '../images/cat_sprite.png';
+sheet.src = './images/cat_sprite.png';
 
 class Player {
   constructor(game) {

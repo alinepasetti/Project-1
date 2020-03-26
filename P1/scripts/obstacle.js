@@ -1,5 +1,5 @@
 const image = new Image();
-image.src = '../images/cucumber.png';
+image.src = './images/cucumber.png';
 
 class Obstacle {
   constructor(game) {

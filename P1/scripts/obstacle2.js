@@ -1,5 +1,5 @@
 const imageBike = new Image();
-imageBike.src = '../images/bike_sprite.png';
+imageBike.src = './images/bike_sprite.png';
 
 class Obstacle2 {
   constructor(game) {
@@ -66,7 +66,6 @@ class Obstacle2 {
   setRandom() {
     this.positionY =
       this.game.startPath + Math.random() * (this.game.endPath - this.game.startPath - this.height);
-    console.log(this.positionY);
   }
   runLogic() {
     // this.speed = this.game.gameSpeed * 2;

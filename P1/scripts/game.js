@@ -1,7 +1,7 @@
 //music
-const music = new Audio('../audio/music.mp3');
-const bikeSound = new Audio('../audio/bike-bell.mp3');
-const catScreaming = new Audio('../audio/cat-screaming.mp3');
+const music = new Audio('./audio/music.mp3');
+const bikeSound = new Audio('./audio/bike-bell.mp3');
+const catScreaming = new Audio('./audio/cat-screaming.mp3');
 
 class Game {
   constructor($canvas) {
@@ -14,12 +14,12 @@ class Game {
 
     // game screens
     this.gameEndImg = new Image();
-    this.gameEndImg.src = '../images/endGameBG.png';
+    this.gameEndImg.src = './images/endGameBG.png';
     this.startImg = new Image();
-    this.startImg.src = '../images/Entry_of_game_instruc.png';
+    this.startImg.src = './images/Entry_of_game_instruc.png';
     this.gameOverImage = new Image();
-    this.gameOverImage.src = '../images/gameover_sceen.png';
-    this.gameOverSnd = new Audio('../audio/cat-purr.mp3');
+    this.gameOverImage.src = './images/gameover_sceen.png';
+    this.gameOverSnd = new Audio('./audio/cat-purr.mp3');
 
     //new components
     this.background = new Background(this);
@@ -56,7 +56,6 @@ class Game {
       if (!this.isRunning && this.startScreenMenu) {
         switch (event.key) {
           case 'ArrowRight':
-            console.log('right');
             this.start();
             break;
           case 'ArrowDown':
@@ -89,7 +88,6 @@ class Game {
       // this.speed -= 300;
     }
     if (this.timer4 < timestamp - this.gameEnd) {
-      console.log('10 secs');
       this.isRunning = false;
       music.pause();
       this.gameOverSnd.play();
@@ -141,12 +139,14 @@ class Game {
 
   reset() {
     // this.isRunning = true;
+
     music.play();
     this.obstacle = [];
     this.obstacle2 = [];
     this.timer = 0;
     this.timer2 = 0;
     this.timer3 = 0;
+    this.timer4 = 0;
     this.score = 7;
     this.background = new Background(this);
     this.scoreBoard = new Scoreboard(this);
@@ -157,19 +157,22 @@ class Game {
     this.obstacle2.speed = this.gameSpeed;
     this.player.speed = 10;
     this.start();
+    // this.startScreenMenu = true;
     // this.player.speed =
     //   if (!this.isRunning) {
     //     this.isRunning = true;
-    //     this.loop();
+    // this.loop(0);
   }
   // }
 
   togglePause() {
     this.isRunning = !this.isRunning;
     if (this.isRunning) {
+      music.play();
       this.loop(0);
+    } else {
+      music.pause();
     }
-    // this.music.pause();
   }
   checkCollision() {
     const player = this.player;
@@ -196,7 +199,6 @@ class Game {
           player.positionY + player.height > obstacle2.positionY + 50 &&
           player.positionY < obstacle2.positionY + obstacle2.height
         ) {
-          console.log(player.positionX, player.positionY, obstacle2.positionX, obstacle2.positionY);
           catScreaming.play();
           obstacle2.status = 0;
           obstacle2.positionY = 0;
