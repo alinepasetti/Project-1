@@ -20,8 +20,8 @@ class Obstacle {
     this.positionY =
       this.game.startPath + Math.random() * (this.game.endPath - this.game.startPath - this.height);
   }
-  // runLogic() {
-  // // this.speed = this.game.gameSpeed;
-  // this.positionX -= this.speed;
-  // }
+  runLogic() {
+    this.speed = this.game.gameSpeed;
+    this.positionX -= this.speed;
+  }
 }

@@ -4,7 +4,8 @@ class Scoreboard {
     this.$scoreSpan = document.querySelector('#score span');
   }
   paint() {
-    const score = this.game.score;
+    let score = this.game.score;
+    if (score <= 0) score = 0;
     this.$scoreSpan.innerText = score;
   }
 }

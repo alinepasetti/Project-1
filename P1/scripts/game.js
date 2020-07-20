@@ -5,12 +5,20 @@ const catScreaming = new Audio('./audio/cat-screaming.mp3');
 
 class Game {
   constructor($canvas) {
+    // general canvas ang game information
     this.$canvas = $canvas;
     this.context = this.$canvas.getContext('2d');
-    this.gameSpeed = 2;
-    //game end
+    this.isRunning = false;
+
+    // game end auxiliary variables
+    // game will end after 60 second running
     this.gameEnd = 60000;
-    this.timer4 = 0;
+    this.timerToEndGame = 0;
+
+    // game started auxiliary variables
+    this.gameStarted = false;
+    // will be set to the timestamp at the moment the game (re)starts
+    this.gameStartedTime = 0;
 
     // game screens
     this.gameEndImg = new Image();
@@ -19,40 +27,46 @@ class Game {
     this.startImg.src = './images/Entry_of_game_instruc.png';
     this.gameOverImage = new Image();
     this.gameOverImage.src = './images/gameover_sceen.png';
+
+    // game sounds
     this.gameOverSnd = new Audio('./audio/cat-purr.mp3');
 
-    //new components
+    // new components being instantiated
     this.background = new Background(this);
     this.scoreBoard = new Scoreboard(this);
     this.player = new Player(this);
-    this.obstacle = [];
-    this.obstacle2 = [];
+    this.cucumbersArray = [];
+    this.bikesArray = [];
     this.controls = new Controls(this);
     this.controls.setBindingKeys();
 
+    // path available for the player to walk through - max and min in the y axis
     this.startPath = 330;
     this.endPath = 615;
-    // timespan to create new obstacles
-    this.speed = 2000;
-    this.timer = 0;
-    this.timer2 = 0;
 
-    // timespan to increase speed
-    this.timer3 = 0;
+    // timespan to create new obstacles -> cucumbers
+    this.speed = 2000;
+    this.timerCucumberCreation = 0;
+
+    // timespan to create new obstacles -> bikes
+    this.timerBikesCreation = 0;
+
+    // game speed that will change within time and influence on the obstacle creation
+    this.gameSpeed = 2;
+    this.timerToIncreaseSpeed = 0;
     this.changeSpeed = 15000;
 
-    // score and running
+    // score auxiliary variables
     this.score = 7;
-    this.isRunning = false;
 
     //when Game is created / init
     this.startScreenMenu = true;
-    this.startScreen();
   }
 
+  // Method to draw menu screen and key bindings to start game / see instructions
   startScreen() {
     this.context.drawImage(this.startImg, 0, 0, 900, 700, 0, 0, 900, 700);
-    document.addEventListener('keydown', event => {
+    document.addEventListener('keydown', (event) => {
       if (!this.isRunning && this.startScreenMenu) {
         switch (event.key) {
           case 'ArrowRight':
@@ -69,32 +83,54 @@ class Game {
     });
   }
 
+  // gameplay key bindings
   playerControls(key) {
     switch (key) {
       case 'up':
       case 'down':
+        // calls method set in the player class and sends the key that was pressed
         this.player.runLogic(key);
         break;
     }
   }
+
   runLogic(timestamp) {
-    this.checkCollision();
+    this.checkCollision(this.bikesArray);
+    this.checkCollision(this.cucumbersArray);
     this.player.runLogic();
     this.background.runLogic();
-    if (this.timer3 < timestamp - this.changeSpeed) {
-      this.timer3 = timestamp;
+
+    // iterating the cucumbers arrau and running the run logic
+    for (let cucumber of this.cucumbersArray) {
+      cucumber.runLogic();
+    }
+
+    // iterating the bike array and running the logic for them to move
+    for (let bike of this.bikesArray) {
+      bike.runLogic();
+    }
+
+    // creating bikes as obstacles
+    if (this.timerBikesCreation < timestamp - this.speed * 2) {
+      this.timerBikesCreation = timestamp;
+      bikeSound.play();
+      this.bikesArray.push(new Bikes(this));
+    }
+
+    if (this.timerToIncreaseSpeed < timestamp - this.changeSpeed - this.gameStartedTime) {
+      this.timerToIncreaseSpeed = timestamp;
       this.gameSpeed += 1.5;
       this.player.speed += 1;
-      // this.speed -= 300;
+      this.speed -= 400;
     }
-    if (this.timer4 < timestamp - this.gameEnd) {
+    if (this.timerToEndGame < timestamp - this.gameEnd - this.gameStartedTime) {
       this.isRunning = false;
       music.pause();
       this.gameOverSnd.play();
       this.scoreBoard.paint();
       this.context.drawImage(this.gameEndImg, 0, 0, 900, 700);
     }
-    if (this.score === 0) {
+    if (this.score <= 0) {
       this.lose();
     }
   }
@@ -116,20 +152,21 @@ class Game {
     this.background.paint(this);
     this.scoreBoard.paint();
     this.player.update(timestamp);
-    for (let obstacle of this.obstacle) {
+    for (let obstacle of this.cucumbersArray) {
       if (obstacle.status === 1) {
         obstacle.paint();
       }
     }
-    for (let obstacle2 of this.obstacle2) {
-      if (obstacle2.status === 1) {
-        obstacle2.update(timestamp);
+    for (let bikesArray of this.bikesArray) {
+      if (bikesArray.status === 1) {
+        bikesArray.paint(timestamp);
       }
     }
   }
 
   start() {
     if (!this.isRunning) {
+      this.gameStarted = true;
       music.play();
       this.isRunning = true;
       this.loop(0);
@@ -138,32 +175,25 @@ class Game {
   }
 
   reset() {
-    // this.isRunning = true;
-
     music.play();
-    this.obstacle = [];
-    this.obstacle2 = [];
-    this.timer = 0;
-    this.timer2 = 0;
-    this.timer3 = 0;
-    this.timer4 = 0;
+    this.cucumbersArray = [];
+    this.bikesArray = [];
+    this.timerCucumberCreation = 0;
+    this.timerBikesCreation = 0;
+    this.timerToIncreaseSpeed = 0;
+    this.timerToEndGame = 0;
     this.score = 7;
     this.background = new Background(this);
     this.scoreBoard = new Scoreboard(this);
     this.player = new Player(this);
     this.gameSpeed = 2;
     this.background.speed = this.gameSpeed;
-    this.obstacle.speed = this.gameSpeed;
-    this.obstacle2.speed = this.gameSpeed;
     this.player.speed = 10;
     this.start();
-    // this.startScreenMenu = true;
-    // this.player.speed =
-    //   if (!this.isRunning) {
-    //     this.isRunning = true;
-    // this.loop(0);
+    // if (!this.isRunning) {
+    //   this.isRunning = true;
+    // }
   }
-  // }
 
   togglePause() {
     this.isRunning = !this.isRunning;
@@ -174,9 +204,10 @@ class Game {
       music.pause();
     }
   }
-  checkCollision() {
+
+  checkCollision(array) {
     const player = this.player;
-    for (let obstacle of this.obstacle) {
+    for (let obstacle of array) {
       if (typeof obstacle.positionX == 'number') {
         if (
           player.positionX + player.width > obstacle.positionX &&
@@ -186,48 +217,30 @@ class Game {
         ) {
           catScreaming.play();
           obstacle.status = 0;
+          // this.cucumbersArray.splice(obstacle.indexOf(obstacle), 1);
           obstacle.positionY = 0;
-          this.score -= 1;
-        }
-      }
-    }
-    for (let obstacle2 of this.obstacle2) {
-      if (typeof obstacle2.positionX == 'number') {
-        if (
-          player.positionX + player.width > obstacle2.positionX &&
-          player.positionX < obstacle2.positionX + obstacle2.width &&
-          player.positionY + player.height > obstacle2.positionY + 50 &&
-          player.positionY < obstacle2.positionY + obstacle2.height
-        ) {
-          catScreaming.play();
-          obstacle2.status = 0;
-          obstacle2.positionY = 0;
-          this.score -= 1;
+          const removeLives = array === this.cucumbersArray ? 1 : obstacle.takeOutRandomLives();
+          this.score -= removeLives;
         }
       }
     }
   }
 
   loop(timestamp) {
+    if (this.gameStarted && timestamp) {
+      this.gameStarted = false;
+      this.gameStartedTime = timestamp;
+    }
+
     this.runLogic(timestamp);
     if (this.isRunning) {
       this.paint(timestamp);
-      for (let n = 0; n < this.obstacle2.length; n++) {
-        this.obstacle2[n].positionX -= this.gameSpeed * 2;
+
+      if (this.timerCucumberCreation < timestamp - this.speed) {
+        this.timerCucumberCreation = timestamp;
+        this.cucumbersArray.push(new Obstacle(this));
       }
-      if (this.timer2 < timestamp - this.speed * 2) {
-        this.timer2 = timestamp;
-        bikeSound.play();
-        this.obstacle2.push(new Obstacle2(this));
-      }
-      for (let i = 0; i < this.obstacle.length; i++) {
-        this.obstacle[i].positionX -= this.gameSpeed;
-      }
-      if (this.timer < timestamp - this.speed) {
-        this.timer = timestamp;
-        this.obstacle.push(new Obstacle(this));
-      }
-      window.requestAnimationFrame(timestamp => {
+      window.requestAnimationFrame((timestamp) => {
         this.loop(timestamp);
       });
     } else {
